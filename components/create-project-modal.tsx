@@ -56,6 +56,7 @@ export default function CreateProjectModal({ onClose }: { onClose: () => void })
         const result = await generateCode({
           prompt: prompt,
           apiUrl,
+          openaiApiKey: apiKeys.openai,
           model: 'gpt-4o',
           temperature: 0.7,
           maxTokens: 2000
@@ -75,6 +76,7 @@ export default function CreateProjectModal({ onClose }: { onClose: () => void })
           imageData: imagePreview,
           prompt: prompt,
           apiUrl,
+          openaiApiKey: apiKeys.openai,
           model: 'gpt-4o',
           temperature: 0.7,
           maxTokens: 2000
@@ -93,7 +95,8 @@ export default function CreateProjectModal({ onClose }: { onClose: () => void })
         const result = await cloneFromUrl({
           url: targetUrl,
           prompt: prompt,
-          apiUrl
+          apiUrl,
+          openaiApiKey: apiKeys.openai
         })
 
         if (!result.success) {

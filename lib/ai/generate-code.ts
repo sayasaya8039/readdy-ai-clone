@@ -1,6 +1,7 @@
 export interface GenerateCodeOptions {
   prompt: string
   apiUrl: string
+  openaiApiKey: string
   model?: string
   temperature?: number
   maxTokens?: number
@@ -18,13 +19,14 @@ export interface GenerateCodeResult {
 }
 
 export async function generateCode(options: GenerateCodeOptions): Promise<GenerateCodeResult> {
-  const { prompt, apiUrl, model = 'gpt-4o', temperature = 0.7, maxTokens = 2000 } = options
+  const { prompt, apiUrl, openaiApiKey, model = 'gpt-4o', temperature = 0.7, maxTokens = 2000 } = options
 
   try {
     const response = await fetch(`${apiUrl}/api/generate`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-OpenAI-Key': openaiApiKey
       },
       body: JSON.stringify({
         prompt,

@@ -4,6 +4,7 @@ export interface CloneFromUrlOptions {
   url: string
   prompt?: string
   apiUrl: string
+  openaiApiKey: string
 }
 
 export async function cloneFromUrl(
@@ -12,14 +13,16 @@ export async function cloneFromUrl(
   const {
     url,
     prompt = 'Convert this website to React/Next.js code with Tailwind CSS',
-    apiUrl
+    apiUrl,
+    openaiApiKey
   } = options
 
   try {
     const response = await fetch(`${apiUrl}/api/clone-from-url`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-OpenAI-Key': openaiApiKey
       },
       body: JSON.stringify({
         url,

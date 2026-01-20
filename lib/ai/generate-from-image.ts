@@ -1,9 +1,10 @@
 import type { GenerateCodeResult } from './generate-code'
 
 export interface GenerateFromImageOptions {
-  imageData: string  // base64 or data URL
+  imageData: string
   prompt?: string
   apiUrl: string
+  openaiApiKey: string
   model?: string
   temperature?: number
   maxTokens?: number
@@ -16,6 +17,7 @@ export async function generateFromImage(
     imageData,
     prompt = 'Convert this UI design to React/Next.js code with Tailwind CSS',
     apiUrl,
+    openaiApiKey,
     model = 'gpt-4o',
     temperature = 0.7,
     maxTokens = 2000
@@ -25,7 +27,8 @@ export async function generateFromImage(
     const response = await fetch(`${apiUrl}/api/generate-from-image`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-OpenAI-Key': openaiApiKey
       },
       body: JSON.stringify({
         imageData,
