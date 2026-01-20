@@ -22,13 +22,21 @@ export default function CenterPanel() {
             <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1">
               <button
                 onClick={() => setPreviewMode('desktop')}
-                className={}
+                className={`px-3 py-1 rounded text-sm transition-colors ${
+                  previewMode === 'desktop'
+                    ? 'bg-white shadow-sm text-gray-900'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
               >
                 Desktop
               </button>
               <button
                 onClick={() => setPreviewMode('mobile')}
-                className={}
+                className={`px-3 py-1 rounded text-sm transition-colors ${
+                  previewMode === 'mobile'
+                    ? 'bg-white shadow-sm text-gray-900'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
               >
                 Mobile
               </button>
