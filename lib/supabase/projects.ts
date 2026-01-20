@@ -58,7 +58,7 @@ export async function saveProject(options: SaveProjectOptions) {
     return { success: true, project: projectData }
   } catch (error) {
     console.error('保存エラー:', error)
-    throw new Error(\)
+    throw new Error('プロジェクトの保存に失敗しました')
   }
 }
 
@@ -72,7 +72,7 @@ export async function loadProjects(supabaseUrl: string, supabaseKey: string) {
   try {
     const { data: projects, error: projectsError } = await supabase
       .from('projects')
-      .select(\)
+      .select('*')
       .order('updated_at', { ascending: false })
 
     if (projectsError) throw projectsError
@@ -91,6 +91,6 @@ export async function loadProjects(supabaseUrl: string, supabaseKey: string) {
     }))
   } catch (error) {
     console.error('読み込みエラー:', error)
-    throw new Error(\)
+    throw new Error('プロジェクトの読み込みに失敗しました')
   }
 }
