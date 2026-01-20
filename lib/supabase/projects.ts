@@ -12,7 +12,7 @@ export interface SaveProjectOptions {
       id: string
       path: string
       componentCode: string
-      metaTitle: string
+      metaTitle?: string
     }>
   }
 }
@@ -45,7 +45,7 @@ export async function saveProject(options: SaveProjectOptions) {
       project_id: project.id,
       path: page.path,
       component_code: page.componentCode,
-      meta_title: page.metaTitle,
+      meta_title: page.metaTitle || '',
       updated_at: new Date().toISOString(),
     }))
 
