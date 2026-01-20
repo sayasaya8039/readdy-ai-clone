@@ -1,135 +1,25 @@
 "use client"
-
 import { useState } from 'react'
 import { useApiKeys } from '@/lib/contexts/api-keys-context'
 import type { ApiKeyType } from '@/types/api-keys'
-
 export default function ApiKeysSettings() {
   const { apiKeys, setApiKey, clearApiKeys, hasAllRequiredKeys } = useApiKeys()
   const [showKeys, setShowKeys] = useState(false)
-
-  const handleChange = (key: ApiKeyType, value: string) => {
-    setApiKey(key, value)
-  }
-
+  const handleChange = (key: ApiKeyType, value: string) => {setApiKey(key, value)}
   return (
     <div className="max-w-2xl mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-4">API Keys Settings</h2>
-      <p className="text-gray-600 mb-6">
-        Your API keys are stored locally in your browser and never sent to our servers.
-      </p>
-
-      <div className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium mb-2">
-            OpenAI API Key *
-          </label>
-          <input
-            type={showKeys ? 'text' : 'password'}
-            value={apiKeys.openai}
-            onChange={(e) => handleChange('openai', e.target.value)}
-            placeholder="sk-..."
-            className="w-full px-3 py-2 border rounded-md"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-2">
-            Supabase URL *
-          </label>
-          <input
-            type="text"
-            value={apiKeys.supabaseUrl}
-            onChange={(e) => handleChange('supabaseUrl', e.target.value)}
-            placeholder="https://xxxxx.supabase.co"
-            className="w-full px-3 py-2 border rounded-md"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-2">
-            Supabase Anon Key *
-          </label>
-          <input
-            type={showKeys ? 'text' : 'password'}
-            value={apiKeys.supabaseAnonKey}
-            onChange={(e) => handleChange('supabaseAnonKey', e.target.value)}
-            placeholder="eyJ..."
-            className="w-full px-3 py-2 border rounded-md"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-2">
-            Supabase Service Role Key *
-          </label>
-          <input
-            type={showKeys ? 'text' : 'password'}
-            value={apiKeys.supabaseKey}
-            onChange={(e) => handleChange('supabaseKey', e.target.value)}
-            placeholder="eyJ..."
-            className="w-full px-3 py-2 border rounded-md"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-2">
-            Stripe Secret Key (Optional)
-          </label>
-          <input
-            type={showKeys ? 'text' : 'password'}
-            value={apiKeys.stripeSecret || ''}
-            onChange={(e) => handleChange('stripeSecret', e.target.value)}
-            placeholder="sk_..."
-            className="w-full px-3 py-2 border rounded-md"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-2">
-            Vercel API Token (Optional)
-          </label>
-          <input
-            type={showKeys ? 'text' : 'password'}
-            value={apiKeys.vercelToken || ''}
-            onChange={(e) => handleChange('vercelToken', e.target.value)}
-            placeholder="xxxxx..."
-            className="w-full px-3 py-2 border rounded-md"
-          />
-        </div>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">API Keys Settings</h2>
+      <p className="text-gray-600 mb-6">Your API keys are stored locally in your browser and never sent to our servers.</p>
+      <div className="space-y-6">
+        <div><div className="flex items-center justify-between mb-2"><label className="block text-sm font-medium text-gray-900">OpenAI API Key *</label><a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 hover:text-blue-800 flex items-center gap-1"><span>Get API Key</span><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a></div><input type={showKeys ? 'text' : 'password'} value={apiKeys.openai} onChange={(e) => handleChange('openai', e.target.value)} placeholder="sk-..." className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"/></div>
+        <div><div className="flex items-center justify-between mb-2"><label className="block text-sm font-medium text-gray-900">Supabase URL *</label><a href="https://supabase.com/dashboard/projects" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 hover:text-blue-800 flex items-center gap-1"><span>Open Dashboard</span><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a></div><input type="text" value={apiKeys.supabaseUrl} onChange={(e) => handleChange('supabaseUrl', e.target.value)} placeholder="https://xxxxx.supabase.co" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"/></div>
+        <div><div className="flex items-center justify-between mb-2"><label className="block text-sm font-medium text-gray-900">Supabase Anon Key *</label><a href="https://supabase.com/dashboard/projects" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 hover:text-blue-800 flex items-center gap-1"><span>Get API Keys</span><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a></div><input type={showKeys ? 'text' : 'password'} value={apiKeys.supabaseAnonKey} onChange={(e) => handleChange('supabaseAnonKey', e.target.value)} placeholder="eyJ..." className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"/></div>
+        <div><div className="flex items-center justify-between mb-2"><label className="block text-sm font-medium text-gray-900">Supabase Service Role Key *</label><a href="https://supabase.com/dashboard/projects" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 hover:text-blue-800 flex items-center gap-1"><span>Get Service Key</span><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a></div><input type={showKeys ? 'text' : 'password'} value={apiKeys.supabaseKey} onChange={(e) => handleChange('supabaseKey', e.target.value)} placeholder="eyJ..." className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"/></div>
+        <div><div className="flex items-center justify-between mb-2"><label className="block text-sm font-medium text-gray-900">Stripe Secret Key (Optional)</label><a href="https://dashboard.stripe.com/apikeys" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 hover:text-blue-800 flex items-center gap-1"><span>Get API Key</span><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a></div><input type={showKeys ? 'text' : 'password'} value={apiKeys.stripeSecret || ''} onChange={(e) => handleChange('stripeSecret', e.target.value)} placeholder="sk_..." className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"/></div>
+        <div><div className="flex items-center justify-between mb-2"><label className="block text-sm font-medium text-gray-900">Vercel API Token (Optional)</label><a href="https://vercel.com/account/tokens" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 hover:text-blue-800 flex items-center gap-1"><span>Get Token</span><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg></a></div><input type={showKeys ? 'text' : 'password'} value={apiKeys.vercelToken || ''} onChange={(e) => handleChange('vercelToken', e.target.value)} placeholder="xxxxx..." className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"/></div>
       </div>
-
-      <div className="mt-6 flex items-center justify-between">
-        <button
-          onClick={() => setShowKeys(!showKeys)}
-          className="text-sm text-blue-600 hover:underline"
-        >
-          {showKeys ? 'Hide' : 'Show'} API Keys
-        </button>
-
-        <div className="space-x-2">
-          <button
-            onClick={clearApiKeys}
-            className="px-4 py-2 border rounded-md hover:bg-gray-50"
-          >
-            Clear All
-          </button>
-          <button
-            disabled={!hasAllRequiredKeys()}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
-          >
-            Save & Continue
-          </button>
-        </div>
-      </div>
-
-      {hasAllRequiredKeys() && (
-        <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-md">
-          <p className="text-sm text-green-800">
-            ✓ All required API keys are configured
-          </p>
-        </div>
-      )}
+      <div className="mt-6 flex items-center justify-between"><button onClick={() => setShowKeys(!showKeys)} className="text-sm text-blue-600 hover:text-blue-800 hover:underline">{showKeys ? 'Hide' : 'Show'} API Keys</button><div className="space-x-2"><button onClick={clearApiKeys} className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50">Clear All</button><button disabled={!hasAllRequiredKeys()} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed">Save & Continue</button></div></div>
+      {hasAllRequiredKeys() && (<div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-md"><p className="text-sm text-green-800">✓ All required API keys are configured</p></div>)}
     </div>
   )
 }
