@@ -24,6 +24,8 @@ export async function generateFromImage(
   } = options
 
   try {
+    console.log('[generateFromImage] リクエスト開始:', { apiUrl, model })
+    
     const response = await fetch(`${apiUrl}/api/generate-from-image`, {
       method: 'POST',
       headers: {
@@ -39,22 +41,33 @@ export async function generateFromImage(
       })
     })
 
+    console.log('[generateFromImage] レスポンス受信:', { status: response.status, ok: response.ok })
+
     if (!response.ok) {
-      const error = await response.json()
-      throw new Error(error.error || `HTTP ${response.status}`)
+      const errorText = await response.text()
+      console.error('[generateFromImage] エラーレスポンス:', errorText)
+      
+      try {
+        const error = JSON.parse(errorText)
+        throw new Error(error.error || error.message || `HTTP ${response.status}`)
+      } catch (parseError) {
+        throw new Error(`HTTP ${response.status}: ${errorText}`)
+      }
     }
 
     const result = await response.json()
+    console.log('[generateFromImage] 成功:', { hasCode: !!result.code, codeLength: result.code?.length })
 
     return {
-      success: result.success,
+      success: result.success !== false,
       code: result.code,
       usage: result.usage
     }
   } catch (error) {
+    console.error('[generateFromImage] エラー:', error)
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Failed to generate code from image'
+      error: error instanceof Error ? error.message : '不明なエラー'
     }
   }
 }

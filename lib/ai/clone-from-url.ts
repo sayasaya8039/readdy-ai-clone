@@ -18,6 +18,8 @@ export async function cloneFromUrl(
   } = options
 
   try {
+    console.log('[cloneFromUrl] リクエスト開始:', { apiUrl, targetUrl: url })
+    
     const response = await fetch(`${apiUrl}/api/clone-from-url`, {
       method: 'POST',
       headers: {
@@ -30,22 +32,33 @@ export async function cloneFromUrl(
       })
     })
 
+    console.log('[cloneFromUrl] レスポンス受信:', { status: response.status, ok: response.ok })
+
     if (!response.ok) {
-      const error = await response.json()
-      throw new Error(error.error || `HTTP ${response.status}`)
+      const errorText = await response.text()
+      console.error('[cloneFromUrl] エラーレスポンス:', errorText)
+      
+      try {
+        const error = JSON.parse(errorText)
+        throw new Error(error.error || error.message || `HTTP ${response.status}`)
+      } catch (parseError) {
+        throw new Error(`HTTP ${response.status}: ${errorText}`)
+      }
     }
 
     const result = await response.json()
+    console.log('[cloneFromUrl] 成功:', { hasCode: !!result.code, codeLength: result.code?.length })
 
     return {
-      success: result.success,
+      success: result.success !== false,
       code: result.code,
       usage: result.usage
     }
   } catch (error) {
+    console.error('[cloneFromUrl] エラー:', error)
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Failed to clone from URL'
+      error: error instanceof Error ? error.message : '不明なエラー'
     }
   }
 }
