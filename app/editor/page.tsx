@@ -29,11 +29,11 @@ export default function EditorPage() {
 
     setIsSaving(true)
     try {
-      await saveProject(
-        currentProject,
-        apiKeys.supabaseUrl,
-        apiKeys.supabaseKey
-      )
+      await saveProject({
+        supabaseUrl: apiKeys.supabaseUrl,
+        supabaseKey: apiKeys.supabaseKey,
+        project: currentProject
+      })
       alert('プロジェクトを保存しました')
     } catch (error) {
       console.error('保存エラー:', error)
