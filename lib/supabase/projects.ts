@@ -20,7 +20,7 @@ export interface SaveProjectOptions {
 export async function saveProject(options: SaveProjectOptions) {
   const { supabaseUrl, supabaseKey, project } = options
 
-  if (\!supabaseUrl || \!supabaseKey) {
+  if (!supabaseUrl || !supabaseKey) {
     throw new Error('Supabase認証情報が設定されていません')
   }
 
@@ -63,7 +63,7 @@ export async function saveProject(options: SaveProjectOptions) {
 }
 
 export async function loadProjects(supabaseUrl: string, supabaseKey: string) {
-  if (\!supabaseUrl || \!supabaseKey) {
+  if (!supabaseUrl || !supabaseKey) {
     throw new Error('Supabase認証情報が設定されていません')
   }
 

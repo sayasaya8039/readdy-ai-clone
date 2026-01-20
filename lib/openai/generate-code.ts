@@ -63,9 +63,7 @@ export default function App() {
 
     const generatedCode = completion.choices[0]?.message?.content || ''
 
-    const codeMatch = generatedCode.match(/\`\`\`(?:typescript|tsx)?
-([\s\S]*?)
-\`\`\`/)
+    const codeMatch = generatedCode.match(/```(?:typescript|tsx)?\n([\s\S]*?)\n```/)
     const cleanCode = codeMatch ? codeMatch[1] : generatedCode
 
     const imports = extractImports(cleanCode)
@@ -191,9 +189,7 @@ export default function App() {
     })
 
     const generatedCode = completion.choices[0]?.message?.content || ''
-    const codeMatch = generatedCode.match(/\`\`\`(?:typescript|tsx)?
-([\s\S]*?)
-\`\`\`/)
+    const codeMatch = generatedCode.match(/```(?:typescript|tsx)?\n([\s\S]*?)\n```/)
     const cleanCode = codeMatch ? codeMatch[1] : generatedCode
     const imports = extractImports(cleanCode)
 

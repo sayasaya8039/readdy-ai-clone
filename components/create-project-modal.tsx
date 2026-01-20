@@ -54,49 +54,49 @@ export default function CreateProjectModal({ onClose }: { onClose: () => void })
 
       if (mode === 'text') {
         const result = await generateCode({
-          prompt: \,
+          prompt: prompt,
           apiUrl,
           model: 'gpt-4o',
           temperature: 0.7,
           maxTokens: 2000
         })
 
-        if (\!result.success) {
+        if (!result.success) {
           throw new Error(result.error || 'コード生成に失敗しました')
         }
 
         generatedCode = result.code || ''
       } else if (mode === 'image') {
-        if (\!imagePreview) {
+        if (!imagePreview) {
           throw new Error('画像を選択してください')
         }
 
         const result = await generateFromImage({
           imageData: imagePreview,
-          prompt: \,
+          prompt: prompt,
           apiUrl,
           model: 'gpt-4o',
           temperature: 0.7,
           maxTokens: 2000
         })
 
-        if (\!result.success) {
+        if (!result.success) {
           throw new Error(result.error || '画像からのコード生成に失敗しました')
         }
 
         generatedCode = result.code || ''
       } else if (mode === 'url') {
-        if (\!targetUrl) {
+        if (!targetUrl) {
           throw new Error('URLを入力してください')
         }
 
         const result = await cloneFromUrl({
           url: targetUrl,
-          prompt: \,
+          prompt: prompt,
           apiUrl
         })
 
-        if (\!result.success) {
+        if (!result.success) {
           throw new Error(result.error || 'URLからのクローンに失敗しました')
         }
 

@@ -62,9 +62,7 @@ ${currentCode}
 
     const response = completion.choices[0]?.message?.content || ''
 
-    const codeMatch = response.match(/\`\`\`(?:typescript|tsx)?
-([\s\S]*?)
-\`\`\`/)
+    const codeMatch = response.match(/```(?:typescript|tsx)?\n([\s\S]*?)\n```/)
     const modifiedCode = codeMatch ? codeMatch[1] : response
 
     return {
