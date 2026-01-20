@@ -34,7 +34,11 @@ export default function LeftPanel() {
                 <button
                   key={page.id}
                   onClick={() => setCurrentPage(page)}
-                  className={}
+                  className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
+                    currentPage?.id === page.id
+                      ? 'bg-blue-50 text-blue-700'
+                      : 'hover:bg-gray-50 text-gray-700'
+                  }`}
                 >
                   <div className="flex items-center gap-2">
                     <svg

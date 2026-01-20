@@ -1,33 +1,52 @@
 import { createClient } from '@supabase/supabase-js'
-import { Database } from '@/types/database/supabase'
+import type { Database } from './database.types'
 
+// シングルトンインスタンス
+let cachedUrl: string | null = null
 let supabaseInstance: ReturnType<typeof createClient<Database>> | null = null
 
 export function getSupabaseClient(supabaseUrl: string, supabaseAnonKey: string) {
   // キャッシュされたインスタンスがあり、同じURLの場合は再利用
-  if (supabaseInstance && supabaseInstance.supabaseUrl === supabaseUrl) {
+  if (supabaseInstance && cachedUrl === supabaseUrl) {
     return supabaseInstance
   }
 
   // 新しいSupabaseクライアントを作成
+  cachedUrl = supabaseUrl
   supabaseInstance = createClient<Database>(supabaseUrl, supabaseAnonKey)
   
   return supabaseInstance
 }
 
-// プロジェクト操作
+// プロジェクト一覧取得
+export async function getProjects(supabaseUrl: string, supabaseAnonKey: string) {
+  const supabase = getSupabaseClient(supabaseUrl, supabaseAnonKey)
+  
+  const { data, error } = await supabase
+    .from('projects')
+    .select('*')
+    .order('created_at', { ascending: false })
+
+  if (error) throw error
+  return data
+}
+
+// プロジェクト作成
 export async function createProject(
-  client: ReturnType<typeof createClient<Database>>,
-  userId: string,
-  name: string,
-  framework: 'nextjs' | 'react'
+  supabaseUrl: string,
+  supabaseAnonKey: string,
+  project: {
+    name: string
+    framework: 'nextjs' | 'react'
+  }
 ) {
-  const { data, error } = await client
+  const supabase = getSupabaseClient(supabaseUrl, supabaseAnonKey)
+  
+  const { data, error } = await supabase
     .from('projects')
     .insert({
-      user_id: userId,
-      name,
-      framework,
+      name: project.name,
+      framework: project.framework,
     })
     .select()
     .single()
@@ -36,38 +55,22 @@ export async function createProject(
   return data
 }
 
-export async function getProjects(
-  client: ReturnType<typeof createClient<Database>>,
-  userId: string
-) {
-  const { data, error } = await client
-    .from('projects')
-    .select('*')
-    .eq('user_id', userId)
-    .order('updated_at', { ascending: false })
-
-  if (error) throw error
-  return data
-}
-
-// ページ操作
-export async function createPage(
-  client: ReturnType<typeof createClient<Database>>,
+// プロジェクト更新
+export async function updateProject(
+  supabaseUrl: string,
+  supabaseAnonKey: string,
   projectId: string,
-  path: string,
-  componentCode: string,
-  metaTitle?: string,
-  metaDescription?: string
+  updates: {
+    name?: string
+    framework?: 'nextjs' | 'react'
+  }
 ) {
-  const { data, error } = await client
-    .from('pages')
-    .insert({
-      project_id: projectId,
-      path,
-      component_code: componentCode,
-      meta_title: metaTitle,
-      meta_description: metaDescription,
-    })
+  const supabase = getSupabaseClient(supabaseUrl, supabaseAnonKey)
+  
+  const { data, error } = await supabase
+    .from('projects')
+    .update(updates)
+    .eq('id', projectId)
     .select()
     .single()
 
@@ -75,28 +78,47 @@ export async function createPage(
   return data
 }
 
-export async function getPages(
-  client: ReturnType<typeof createClient<Database>>,
-  projectId: string
+// ページ作成
+export async function createPage(
+  supabaseUrl: string,
+  supabaseAnonKey: string,
+  page: {
+    project_id: string
+    path: string
+    component_code: string
+    meta_title?: string
+    meta_description?: string
+  }
 ) {
-  const { data, error } = await client
+  const supabase = getSupabaseClient(supabaseUrl, supabaseAnonKey)
+  
+  const { data, error } = await supabase
     .from('pages')
-    .select('*')
-    .eq('project_id', projectId)
-    .order('created_at', { ascending: true })
+    .insert(page)
+    .select()
+    .single()
 
   if (error) throw error
   return data
 }
 
-export async function updatePageCode(
-  client: ReturnType<typeof createClient<Database>>,
+// ページ更新
+export async function updatePage(
+  supabaseUrl: string,
+  supabaseAnonKey: string,
   pageId: string,
-  componentCode: string
+  updates: {
+    path?: string
+    component_code?: string
+    meta_title?: string
+    meta_description?: string
+  }
 ) {
-  const { data, error } = await client
+  const supabase = getSupabaseClient(supabaseUrl, supabaseAnonKey)
+  
+  const { data, error } = await supabase
     .from('pages')
-    .update({ component_code: componentCode })
+    .update(updates)
     .eq('id', pageId)
     .select()
     .single()

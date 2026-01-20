@@ -53,7 +53,9 @@ export default function CenterPanel() {
       {/* Preview Area */}
       <div className="flex-1 overflow-auto p-8 flex items-start justify-center">
         <div
-          className={}
+          className={`rounded-lg shadow-lg bg-white ${
+            previewMode === 'mobile' ? 'w-[375px]' : 'w-full max-w-6xl'
+          }`}
         >
           {currentPage ? (
             <div className="p-8">

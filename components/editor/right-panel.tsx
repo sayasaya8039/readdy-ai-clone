@@ -24,13 +24,21 @@ export default function RightPanel() {
         <div className="flex">
           <button
             onClick={() => setActiveTab('chat')}
-            className={}
+            className={`flex-1 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+              activeTab === 'chat'
+                ? 'border-blue-600 text-blue-600'
+                : 'border-transparent text-gray-600 hover:text-gray-900'
+            }`}
           >
             AIチャット
           </button>
           <button
             onClick={() => setActiveTab('properties')}
-            className={}
+            className={`flex-1 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+              activeTab === 'properties'
+                ? 'border-blue-600 text-blue-600'
+                : 'border-transparent text-gray-600 hover:text-gray-900'
+            }`}
           >
             プロパティ
           </button>

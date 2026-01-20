@@ -15,7 +15,7 @@ export default function EditorLayout() {
       {/* Left Panel - Navigation & Layers */}
       <div 
         className="border-r border-gray-200 bg-white flex-shrink-0"
-        style={{ width:  }}
+        style={{ width: '280px' }}
       >
         <LeftPanel />
       </div>
@@ -28,7 +28,7 @@ export default function EditorLayout() {
       {/* Right Panel - AI Chat & Properties */}
       <div 
         className="border-l border-gray-200 bg-white flex-shrink-0"
-        style={{ width:  }}
+        style={{ width: '320px' }}
       >
         <RightPanel />
       </div>

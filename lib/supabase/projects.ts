@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
-import type { Database } from '@/types/database/supabase'
+import type { Database } from './database.types'
 
 export interface SaveProjectOptions {
   supabaseUrl: string
@@ -77,18 +77,40 @@ export async function loadProjects(supabaseUrl: string, supabaseKey: string) {
 
     if (projectsError) throw projectsError
 
-    return projects.map(proj => ({
-      id: proj.id,
-      name: proj.name,
-      framework: proj.framework as 'nextjs' | 'react',
-      pages: (proj.pages || []).map(page => ({
-        id: page.id,
-        path: page.path,
-        componentCode: page.component_code,
-        metaTitle: page.meta_title || '',
-      })),
-      createdAt: new Date(proj.created_at),
-    }))
+    const projectsWithPages = await Promise.all(
+      projects.map(async (proj) => {
+        const { data: pages, error: pagesError } = await supabase
+          .from('pages')
+          .select('*')
+          .eq('project_id', proj.id)
+
+        if (pagesError) {
+          console.error('ページ取得エラー:', pagesError)
+          return {
+            id: proj.id,
+            name: proj.name,
+            framework: proj.framework as 'nextjs' | 'react',
+            pages: [],
+            createdAt: new Date(proj.created_at),
+          }
+        }
+
+        return {
+          id: proj.id,
+          name: proj.name,
+          framework: proj.framework as 'nextjs' | 'react',
+          pages: (pages || []).map(page => ({
+            id: page.id,
+            path: page.path,
+            componentCode: page.component_code,
+            metaTitle: page.meta_title || '',
+          })),
+          createdAt: new Date(proj.created_at),
+        }
+      })
+    )
+
+    return projectsWithPages
   } catch (error) {
     console.error('読み込みエラー:', error)
     throw new Error('プロジェクトの読み込みに失敗しました')
