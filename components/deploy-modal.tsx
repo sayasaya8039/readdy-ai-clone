@@ -139,14 +139,7 @@ export default function DeployModal({ onClose }: DeployModalProps) {
                           {deployResult.url}
                         </a>
                       </div>
-                      {deployResult.repositoryUrl && (
-                        <div>
-                          <span className="text-sm font-medium">リポジトリ: </span>
-                          <a href={deployResult.repositoryUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                            {deployResult.repositoryUrl}
-                          </a>
-                        </div>
-                      )}
+
                     </div>
                   )}
                 </div>
