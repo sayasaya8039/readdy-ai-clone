@@ -79,7 +79,7 @@ export default function Home() {
           {hasAllRequiredKeys() && (
             <div className="mb-12">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold">保存済みプロジェクト</h2>
+                <h2 className="text-2xl font-bold text-gray-900">保存済みプロジェクト</h2>
                 {isLoading && (
                   <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600" />
                 )}
@@ -103,7 +103,7 @@ export default function Home() {
                   {projects.map((project) => (
                     <div key={project.id} onClick={() => handleOpenProject(project)} className="p-6 bg-white border-2 border-gray-200 rounded-xl hover:border-blue-500 hover:shadow-lg transition-all cursor-pointer">
                       <div className="flex items-start justify-between mb-3">
-                        <h3 className="text-lg font-bold">{project.name}</h3>
+                        <h3 className="text-lg font-bold text-gray-900">{project.name}</h3>
                         <span className="text-xs bg-gray-100 px-2 py-1 rounded">{project.framework}</span>
                       </div>
                       <div className="text-sm text-gray-600 mb-2">{project.pages.length}ページ</div>
@@ -129,7 +129,7 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <h2 className="text-2xl font-bold mb-3">Generate</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">Generate</h2>
               <p className="text-gray-600">テキストプロンプト、画像、URLからWebサイトを自動生成</p>
             </div>
 
@@ -139,7 +139,7 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                 </svg>
               </div>
-              <h2 className="text-2xl font-bold mb-3">Edit</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">Edit</h2>
               <p className="text-gray-600">3パネルエディターでビジュアル編集、AIアシスタント付き</p>
             </div>
 
@@ -149,7 +149,7 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                 </svg>
               </div>
-              <h2 className="text-2xl font-bold mb-3">Publish</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">Publish</h2>
               <p className="text-gray-600">コードをエクスポートして本番環境にデプロイ</p>
             </div>
           </div>
