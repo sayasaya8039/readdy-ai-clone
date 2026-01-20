@@ -92,7 +92,7 @@ app.post('/api/generate', async (c) => {
     // X-OpenAI-Keyヘッダーから取得（BYOKモード）、なければ環境変数から（フォールバック）
     const openaiKey = c.req.header('X-OpenAI-Key') || c.env.OPENAI_API_KEY
 
-    if (\!openaiKey) {
+    if (!openaiKey) {
       return c.json({
         error: 'OpenAI API key not configured',
         message: 'OpenAI API key must be provided via X-OpenAI-Key header or OPENAI_API_KEY environment variable'
