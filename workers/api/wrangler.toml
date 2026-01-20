@@ -1,0 +1,19 @@
+name = "readdy-ai-workers"
+main = "src/index.ts"
+compatibility_date = "2024-12-19"
+
+[vars]
+ENVIRONMENT = "production"
+
+# Secrets (set via: wrangler secret put <KEY>)
+# Required secrets:
+# - OPENAI_API_KEY: OpenAI API key for code generation
+# - SUPABASE_URL: Supabase project URL
+# - SUPABASE_SERVICE_ROLE_KEY: Supabase service role key
+
+# CORS設定用
+[env.production]
+name = "readdy-ai-workers"
+
+[env.development]
+name = "readdy-ai-workers-dev"

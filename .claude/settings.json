@@ -1,0 +1,191 @@
+{
+  "$schema": "https://claude.ai/schemas/settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(bolack *)",
+      "Bash(bun *)",
+      "Bash(bunx *)",
+      "Bash(bunx playwright *)",
+      "Bash(cargo *)",
+      "Bash(code *)",
+      "Bash(codex-fetch *)",
+      "Bash(cp *)",
+      "Bash(crx3 *)",
+      "Bash(cursor *)",
+      "Bash(eslint *)",
+      "Bash(gh )",
+      "Bash(git *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git pull *)",
+      "Bash(git push *)",
+      "Bash(git rebase *)",
+      "Bash(go *)",
+      "Bash(jest *)",
+      "Bash(ls *)",
+      "Bash(mkdir *)",
+      "Bash(mv *)",
+      "Bash(mypy *)",
+      "Bash(node *)",
+      "Bash(npm *)",
+      "Bash(npx *)",
+      "Bash(ollama *)",
+      "Bash(pip *)",
+      "Bash(pnpm *)",
+      "Bash(prettier *)",
+      "Bash(pyinstaller *)",
+      "Bash(pytest *)",
+      "Bash(python *)",
+      "Bash(rm *.pyc)",
+      "Bash(rm -r *)",
+      "Bash(rm -rf .next*)",
+      "Bash(rm -rf __pycache__*)",
+      "Bash(rm -rf build*)",
+      "Bash(rm -rf dist*)",
+      "Bash(rm -rf node_modules*)",
+      "Bash(rm bun.lockb)",
+      "Bash(ruff *)",
+      "Bash(rustc *)",
+      "Bash(sed *)",
+      "Bash(tauri *)",
+      "Bash(tsc *)",
+      "Bash(uv *)",
+      "Bash(vitest *)",
+      "Bash(web-ext *)",
+      "Bash(wrangler *)",
+      "Bash(yarn *)",
+      "Edit",
+      "Glob",
+      "Grep",
+      "NotebookEdit",
+      "Read(*)",
+      "Task",
+      "TodoWrite",
+      "WebFetch",
+      "WebSearch",
+      "Write(*)",
+      "Bash(antigravity *)",
+      "Bash(ralph *)",
+      "Bash(safe-write *)",
+      "Bash(bnmp *)",
+      "Bash(zig *)",
+      "Bash(sw *)",
+      "Bash(codex *)",
+      "Bash(agent-browser *)"
+    ],
+    "deny": [
+      "Bash(rm -rf /)",
+      "Bash(rm -rf ~)",
+      "Bash(rm -rf /*)",
+      "Bash(> /dev/sda)",
+      "Bash(:(){:|:&};:)",
+      "Bash(mkfs*)",
+      "Bash(dd if=*)",
+      "mcp__claude-in-chrome__*",
+      "mcp__codex-cli__*"
+    ]
+  },
+  "env": {
+    "LANG": "ja_JP.UTF-8",
+    "BUN_INSTALL": "/c/Users/Owner/.bun"
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bun x ccusage statusline"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo {\"decision\":\"block\",\"reason\":\"Edit禁止: sw/Python/PowerShellを使用\"}"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo {\"decision\":\"block\",\"reason\":\"Write禁止: sw/Python/PowerShellを使用\"}"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "mcp__codex__codex",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo {\"systemMessage\":\"【必須】threadId受信時は codex-fetch <threadId> をUTF-8で実行して本文を取得すること\"}"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo {\\\"systemMessage\\\":\\\"【Tier 0】/codex \\\"プロンプト\\\": /architect, /plan-reviewer, /code-reviewer, /security-analyst | threadId受信後は codex-fetch で結果取得(UTF-8) | 日本語OK\\\"}"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo {\\\"systemMessage\\\":\\\"\n[タスク完了前チェック - /codex 委任確認]\n  □ 設計・アーキテクチャ決定 → /architect で相談したか？\n  □ 実装計画作成 → /plan-reviewer でレビューしたか？\n  □ コード実装完了 → /code-reviewer でレビューしたか？\n  □ セキュリティ懸念 → /security-analyst で診断したか？\n\"}"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo {\\\"systemMessage\\\":\\\"コンテキスト圧縮! 【絶対忘れない】/codex + codex-fetch(UTF-8) | 日本語OK\\\"}"
+          }
+        ]
+      },
+      {
+        "matcher": "context",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo {\\\"systemMessage\\\":\\\"【Tier 0】/codex継続: threadId→codex-fetch(UTF-8)で本文取得 | 日本語対応\\\"}"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "manual",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"D:/NEXTCLOUD/extensions/CLAUDE_STTING/.claude/scripts/pre-compact-save-context.sh\""
+          }
+        ]
+      },
+      {
+        "matcher": "auto",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"D:/NEXTCLOUD/extensions/CLAUDE_STTING/.claude/scripts/pre-compact-save-context.sh\""
+          }
+        ]
+      }
+    ]
+  }
+}
