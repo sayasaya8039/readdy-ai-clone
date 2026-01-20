@@ -8,7 +8,7 @@ const app = new Hono<{ Bindings: Env }>()
 app.use('/*', cors({
   origin: '*',
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowHeaders: ['Content-Type', 'Authorization'],
+  allowHeaders: ['Content-Type', 'Authorization', 'X-OpenAI-Key'],
   exposeHeaders: ['Content-Length'],
   maxAge: 3600,
   credentials: true,
@@ -31,7 +31,9 @@ app.get('/', (c) => {
     endpoints: {
       health: '/health',
       projects: '/api/projects',
-      generate: '/api/generate'
+      generate: '/api/generate',
+      generateFromImage: '/api/generate-from-image',
+      cloneFromUrl: '/api/clone-from-url'
     }
   })
 })
@@ -87,13 +89,14 @@ app.post('/api/generate', async (c) => {
       return c.json({ error: 'Prompt is required' }, 400)
     }
 
-    const openaiKey = c.env.OPENAI_API_KEY
+    // X-OpenAI-Keyヘッダーから取得（BYOKモード）、なければ環境変数から（フォールバック）
+    const openaiKey = c.req.header('X-OpenAI-Key') || c.env.OPENAI_API_KEY
 
-    if (!openaiKey) {
+    if (\!openaiKey) {
       return c.json({
         error: 'OpenAI API key not configured',
-        message: 'OPENAI_API_KEY must be set'
-      }, 500)
+        message: 'OpenAI API key must be provided via X-OpenAI-Key header or OPENAI_API_KEY environment variable'
+      }, 401)
     }
 
     // OpenAI APIリクエスト
@@ -137,8 +140,166 @@ app.post('/api/generate', async (c) => {
   } catch (error) {
     console.error('Code generation error:', error)
     return c.json({
-      error: 'Internal server error',
-      message: error instanceof Error ? error.message : 'Unknown error'
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error'
+    }, 500)
+  }
+})
+
+
+// 画像からコード生成エンドポイント
+app.post('/api/generate-from-image', async (c) => {
+  try {
+    const body = await c.req.json()
+    const { imageData, prompt = 'Convert this UI design to React/Next.js code with Tailwind CSS', model = 'gpt-4o', temperature = 0.7, max_tokens = 2000 } = body
+
+    if (!imageData) {
+      return c.json({ error: 'Image data is required' }, 400)
+    }
+
+    // X-OpenAI-Keyヘッダーから取得（BYOKモード）、なければ環境変数から（フォールバック）
+    const openaiKey = c.req.header('X-OpenAI-Key') || c.env.OPENAI_API_KEY
+
+    if (!openaiKey) {
+      return c.json({
+        error: 'OpenAI API key not configured',
+        message: 'OpenAI API key must be provided via X-OpenAI-Key header or OPENAI_API_KEY environment variable'
+      }, 401)
+    }
+
+    // OpenAI APIリクエスト（Vision）
+    const openaiRequest: OpenAIImageRequest = {
+      model,
+      messages: [
+        {
+          role: 'system',
+          content: 'You are an expert web developer. Convert UI designs to clean, modern React/Next.js code with Tailwind CSS styling. Always return valid JSX code.'
+        },
+        {
+          role: 'user',
+          content: [
+            {
+              type: 'text',
+              text: prompt
+            },
+            {
+              type: 'image_url',
+              image_url: {
+                url: imageData,
+                detail: 'high'
+              }
+            }
+          ]
+        }
+      ],
+      temperature,
+      max_tokens
+    }
+
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${openaiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(openaiRequest)
+    })
+
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(`OpenAI API error: ${error.error?.message || response.status}`)
+    }
+
+    const result: OpenAIResponse = await response.json()
+
+    return c.json({
+      success: true,
+      code: result.choices[0].message.content,
+      usage: result.usage
+    })
+  } catch (error) {
+    console.error('Image code generation error:', error)
+    return c.json({
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error'
+    }, 500)
+  }
+})
+
+// URLからクローンエンドポイント
+app.post('/api/clone-from-url', async (c) => {
+  try {
+    const body = await c.req.json()
+    const { url, prompt = 'Convert this website to React/Next.js code with Tailwind CSS' } = body
+
+    if (!url) {
+      return c.json({ error: 'URL is required' }, 400)
+    }
+
+    // X-OpenAI-Keyヘッダーから取得（BYOKモード）、なければ環境変数から（フォールバック）
+    const openaiKey = c.req.header('X-OpenAI-Key') || c.env.OPENAI_API_KEY
+
+    if (!openaiKey) {
+      return c.json({
+        error: 'OpenAI API key not configured',
+        message: 'OpenAI API key must be provided via X-OpenAI-Key header or OPENAI_API_KEY environment variable'
+      }, 401)
+    }
+
+    // URLのコンテンツを取得
+    const targetResponse = await fetch(url)
+    if (!targetResponse.ok) {
+      throw new Error(`Failed to fetch URL: ${targetResponse.status}`)
+    }
+
+    const htmlContent = await targetResponse.text()
+
+    // OpenAI APIリクエスト
+    const openaiRequest: OpenAIRequest = {
+      model: 'gpt-4o',
+      messages: [
+        {
+          role: 'system',
+          content: 'You are an expert web developer. Convert website HTML to clean, modern React/Next.js code with Tailwind CSS styling. Always return valid JSX code.'
+        },
+        {
+          role: 'user',
+          content: `${prompt}
+
+HTML Content:
+${htmlContent.slice(0, 8000)}`
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 2000
+    }
+
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${openaiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(openaiRequest)
+    })
+
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(`OpenAI API error: ${error.error?.message || response.status}`)
+    }
+
+    const result: OpenAIResponse = await response.json()
+
+    return c.json({
+      success: true,
+      code: result.choices[0].message.content,
+      usage: result.usage
+    })
+  } catch (error) {
+    console.error('URL clone error:', error)
+    return c.json({
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error'
     }, 500)
   }
 })
