@@ -13,7 +13,7 @@ export default function LeftPanel() {
         <h2 className="text-lg font-semibold text-gray-900">
           {currentProject?.name || 'プロジェクト'}
         </h2>
-        <p className="text-sm text-gray-500 mt-1">
+        <p className="text-sm text-gray-700 mt-1">
           {currentProject?.framework === 'nextjs' ? 'Next.js' : 'React'}
         </p>
       </div>
@@ -60,7 +60,7 @@ export default function LeftPanel() {
               ))}
             </div>
           ) : (
-            <p className="text-sm text-gray-500 py-8 text-center">
+            <p className="text-sm text-gray-700 py-8 text-center">
               ページがありません
             </p>
           )}
@@ -69,7 +69,7 @@ export default function LeftPanel() {
         {/* Layers Section */}
         <div className="p-4 border-t border-gray-200">
           <h3 className="text-sm font-medium text-gray-700 mb-3">レイヤー</h3>
-          <div className="text-sm text-gray-500">
+          <div className="text-sm text-gray-700">
             レイヤー機能は開発中です
           </div>
         </div>

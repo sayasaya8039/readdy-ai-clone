@@ -93,8 +93,8 @@ export default function Home() {
 
               {!isLoading && projects.length === 0 && !error && (
                 <div className="text-center py-12 bg-white rounded-xl border-2 border-dashed border-gray-300">
-                  <p className="text-gray-500">保存されたプロジェクトはありません</p>
-                  <p className="text-sm text-gray-400 mt-2">「新規プロジェクト作成」から始めましょう</p>
+                  <p className="text-gray-700">保存されたプロジェクトはありません</p>
+                  <p className="text-sm text-gray-700 mt-2">「新規プロジェクト作成」から始めましょう</p>
                 </div>
               )}
 
@@ -107,7 +107,7 @@ export default function Home() {
                         <span className="text-xs bg-gray-100 px-2 py-1 rounded">{project.framework}</span>
                       </div>
                       <div className="text-sm text-gray-600 mb-2">{project.pages.length}ページ</div>
-                      <div className="text-xs text-gray-400">{new Date(project.createdAt).toLocaleDateString('ja-JP')}</div>
+                      <div className="text-xs text-gray-700">{new Date(project.createdAt).toLocaleDateString('ja-JP')}</div>
                     </div>
                   ))}
                 </div>

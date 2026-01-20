@@ -39,7 +39,7 @@ export default function CodePanel() {
               <div className="flex items-start justify-between">
                 <div className="flex-1 min-w-0">
                   <div className="font-medium truncate">{page.path}</div>
-                  <div className="text-sm text-gray-500 mt-1 truncate">{page.metaTitle}</div>
+                  <div className="text-sm text-gray-700 mt-1 truncate">{page.metaTitle}</div>
                 </div>
                 
                 {currentProject.pages.length > 1 && (

@@ -136,7 +136,7 @@ export default function CreateProjectModal({ onClose }: { onClose: () => void })
             <h2 className="text-2xl font-bold">新規プロジェクト作成</h2>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 text-2xl"
+              className="text-gray-700 hover:text-gray-600 text-2xl"
             >
               ×
             </button>

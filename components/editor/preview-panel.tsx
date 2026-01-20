@@ -65,7 +65,7 @@ export default function PreviewPanel({ layout }: PreviewPanelProps) {
   if (!currentPage) {
     return (
       <div className="flex items-center justify-center h-full">
-        <p className="text-gray-500">ページが選択されていません</p>
+        <p className="text-gray-700">ページが選択されていません</p>
       </div>
     )
   }
@@ -91,7 +91,7 @@ export default function PreviewPanel({ layout }: PreviewPanelProps) {
         />
       </div>
 
-      <div className="mt-4 text-sm text-gray-500">
+      <div className="mt-4 text-sm text-gray-700">
         {layout === 'mobile' ? '375 × 667 (iPhone SE)' : 'Desktop View'}
       </div>
     </div>

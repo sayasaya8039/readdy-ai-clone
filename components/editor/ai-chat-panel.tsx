@@ -70,7 +70,7 @@ export default function AIChatPanel() {
     <div className="flex flex-col h-full">
       <div className="p-4 border-b border-gray-200">
         <h3 className="font-bold">AIアシスタント</h3>
-        <p className="text-xs text-gray-500 mt-1">
+        <p className="text-xs text-gray-700 mt-1">
           コードの修正を依頼できます
         </p>
       </div>

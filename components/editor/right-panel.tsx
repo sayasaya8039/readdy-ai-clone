@@ -73,7 +73,7 @@ export default function RightPanel() {
                       こんにちは！Webサイトの作成をお手伝いします。どのような変更をご希望ですか？
                     </p>
                   </div>
-                  <p className="text-xs text-gray-500 mt-1">AI Assistant</p>
+                  <p className="text-xs text-gray-700 mt-1">AI Assistant</p>
                 </div>
               </div>
             </div>
@@ -118,12 +118,12 @@ export default function RightPanel() {
                 <h3 className="text-sm font-medium text-gray-700 mb-2">
                   要素のプロパティ
                 </h3>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-700">
                   要素を選択してプロパティを編集できます
                 </p>
               </div>
 
-              <div className="border border-gray-200 rounded-lg p-4 text-center text-sm text-gray-500">
+              <div className="border border-gray-200 rounded-lg p-4 text-center text-sm text-gray-700">
                 要素が選択されていません
               </div>
             </div>

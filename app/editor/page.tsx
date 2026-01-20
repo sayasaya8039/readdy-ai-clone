@@ -87,7 +87,7 @@ export default function EditorPage() {
               ← 戻る
             </button>
             <h1 className="text-xl font-bold">{currentProject.name}</h1>
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-gray-700">
               {currentPage.path}
             </span>
           </div>
